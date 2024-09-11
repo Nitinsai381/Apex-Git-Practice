@@ -7,6 +7,8 @@ public with sharing class RestApiTask {
     HttpResponse response = http.send(request);
     // String name = '';
     List<Mobiles__c> mobiles = new List<Mobiles__c>();
+
+    
     if (response.getStatusCode() == 200) {
       //   Map<String, Object> resultMap = (Map<String, Object>) JSON.deserializeUntyped(
       //     response.getBody()
