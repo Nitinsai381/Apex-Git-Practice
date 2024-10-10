@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title = "List Of Contacts">
+        <template if:true={contactsInfo}>
+          <ol type="1" >
+           <template for:each={contactsInfo} for:item="data">
+                <li key = {data.Id} > <a data-id={data.Id} onclick={contactDataDisplay}>{data.Name}</a></li>
+            </template>
+          </ol>
+        </template>
+    </lightning-card>
+<template if:true={selectedContact}>
+
+    <c-child-contact-display  contactinfo = {selectedContact}></c-child-contact-display>
+</template>
+</template>

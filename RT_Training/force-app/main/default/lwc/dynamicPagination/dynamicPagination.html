@@ -1,0 +1,15 @@
+<template>
+    <lightning-card>
+        <div style="display: flex; justify-content: space-between; width: 85%;">
+            <div>
+              <button style="margin-right: auto;" onclick={onPrevious} disabled={disablePrevious} class="slds-button slds-button_brand">Previous</button>
+            </div> 
+            <div><p>Page {currentpage} of {totalpages}</p></div>
+              <div>
+                  <button  style="margin-left: auto;" onclick={onNext} disabled={disableNext} class="slds-button slds-button_brand">Next</button>
+              </div>
+              
+          </div>
+          <p>{displayrecords}</p>
+    </lightning-card>
+</template>

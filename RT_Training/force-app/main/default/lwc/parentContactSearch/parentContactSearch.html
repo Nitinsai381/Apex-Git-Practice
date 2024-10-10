@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title = "search for contacts" >
+        <input type="text" aria-label="search contacts"> &emsp;
+        <button class="slds-button slds-button_success" onclick={handleClick}>Search</button>  
+      </lightning-card>
+      <template if:true={display}>
+        <c-child-contact-search contactdisplay = {contactNames}></c-child-contact-search>
+      </template>
+
+</template>

@@ -1,0 +1,59 @@
+<template>
+    <lightning-card>
+        <template if:true= {disableSearch}>
+            <c-dynamic-search searchdata = {sendData} onsearch = {handleSearch} ></c-dynamic-search>
+
+        </template>
+        <c-dynamic-drop-down onparent = {handleParent}></c-dynamic-drop-down>
+        <!-- <p>{objectToDisplay}</p> -->
+
+    </lightning-card>
+    <lightning-card title={objectToDisplay} >
+    <template if:true = {isRecordsPresent}>
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+            <thead>
+                <tr>
+
+                    <template for:each= {cloumnData} for:item="col">
+                        <th key = {col.Id}> {col.Label}</th>
+                    </template>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each= {recordsOnPage} for:item="object">
+                    <tr key = {object.Id}> 
+                    <template for:each= {object.record} for:item="values">
+                        <td key = {object.Id} class = "slds-cell-edit"> {values}</td>
+                    </template>
+                </tr>
+                </template>
+            </tbody>
+        </table>
+        
+        <template if:true= {disableSearch}>
+            <br>
+
+            <div style="display: flex; justify-content: space-between; width: 85%;">
+              <div>
+                <button style="margin-right: auto;" onclick={onPrevious} disabled={disablePrevious} class="slds-button slds-button_brand">Previous</button>
+              </div> 
+              <div><p>Page {currentpage} of {totalpages}</p></div>
+                <div>
+                    <button  style="margin-left: auto;" onclick={onNext} disabled={disableNext} class="slds-button slds-button_brand">Next</button>
+                </div>
+                
+            </div>
+        </br> 
+        </template>
+    </template>
+    </lightning-card>
+    <lightning-card>
+        <template if:false= {isRecordsPresent}>
+            <!-- <p>records does not exist</p> -->
+        </template>
+    </lightning-card>
+    <!-- <lightning-card>
+        <c-dynamic-pagination displayrecords = {rowData}></c-dynamic-pagination>
+
+    </lightning-card> -->
+</template>
