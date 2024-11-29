@@ -1,0 +1,147 @@
+<!-- <template>
+    <lightning-card>
+        <lightning-accordion allow-multiple-sections-open>
+            <lightning-accordion-section label= "accounts">
+                <template for:each={accountNames} for:item="acc">
+                    <lightning-accordion key = {accountNames.Id} allow-multiple-sections-open>
+                        <lightning-accordion-section label={acc.Name}>
+                            <p>somethig</p>
+                        </lightning-accordion-section>
+                    </lightning-accordion>
+                </template>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </lightning-card>
+</template> -->
+
+<!-- <template>
+    <lightning-card>
+    <lightning-accordion allow-multiple-sections>
+        <template for:each={accountData} for:item="account">
+            <lightning-accordion-section name={account.Id} label={account.Name} key={account.Id}>
+                <lightning-accordion allow-multiple-sections>
+                    <lightning-accordion-section name="contacts" label="Contacts">
+                        <template if:true={account.Contacts}>
+                            <lightning-datatable
+                                key-field="Id"
+                                data={account.Contacts}
+                                columns={contactColumns}>
+                            </lightning-datatable>
+                        </template>
+                        <template if:false={account.Contacts}>
+                            <p>No Contacts</p>
+                        </template>
+                    </lightning-accordion-section>
+                    <lightning-accordion-section name="opportunities" label="Opportunities">
+                        <template if:true={account.Opportunities}>
+                            <lightning-datatable
+                                key-field="Id"
+                                data={account.Opportunities}
+                                columns={opportunityColumns}>
+                            </lightning-datatable>
+                        </template>
+                        <template if:false={account.Opportunities}>
+                            <p>No Opportunities</p>
+                        </template>
+                    </lightning-accordion-section>
+                    <lightning-accordion-section name="cases" label="Cases">
+                        <template if:true={account.Cases}>
+                            <lightning-datatable
+                                key-field="Id"
+                                data={account.Cases}
+                                columns={caseColumns}>
+                            </lightning-datatable>
+                        </template>
+                        <template if:false={account.Cases}>
+                            <p>No Cases</p>
+                        </template>
+                    </lightning-accordion-section>
+
+                </lightning-accordion>
+            </lightning-accordion-section>
+        </template>
+    </lightning-accordion>
+</lightning-card>
+</template> -->
+<!-- <lightning-accordion allow-multiple-sections-open >
+    <lightning-accordion-section label="Accounts"> -->
+<template>
+    <lightning-card>
+                <template for:each= {accountData} for:item="account">
+                    <lightning-accordion  allow-multiple-sections-open key = {account.Id}>
+                        <lightning-accordion-section label={account.Name}>
+                            <lightning-accordion allow-multiple-sections-open="true">
+                                <lightning-accordion-section label="Contact" >
+                                    <template if:true={account.Contacts}>
+                                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+                                        <thead >
+                                            <template for:each={conLabels} for:item="lab">
+                                                <th key = {lab.Id}>{lab}</th>
+                                            </template>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={account.Contacts} for:item="acc">
+                                               <tr key={acc.Id}>
+                                                <td>{acc.Name}</td>     
+                                                <td>{acc.Email}</td>
+                                                <td>{acc.Phone}</td>
+                                               </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                    </template>
+                                    <template if:false={account.Contacts}>
+                                        <p><b>No Contacts for this Account</b></p>
+                                    </template>
+                                </lightning-accordion-section>
+                                <lightning-accordion-section label="Opportunity">
+                                    <template if:true={account.Opportunities}>
+                                        <table class ="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+                                            <thead>
+                                                <template for:each={oppLabels} for:item="lab">
+                                                    <th key={lab.Id}>{lab}</th>
+                                                </template>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={account.Opportunities} for:item="opp">
+                                                    <tr key={opp.Id}>
+                                                        <td>{opp.Name}</td>
+                                                        <td>{opp.StageName}</td>
+                                                        <td>{opp.CloseDate}</td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </template>
+                                    <template if:false={account.Opportunities}>
+                                        <p><b>No Opportunities for this Account</b></p>
+                                    </template>
+                                </lightning-accordion-section>
+                                <lightning-accordion-section label="Case">
+                                    <template if:true={account.Cases}>
+                                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+                                            <thead>
+                                                <template for:each={caseLabels} for:item="lab">
+                                                    <th key ={lab.Id}>{lab}</th>
+                                                </template>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={account.Cases} for:item="caseData">
+                                                    <tr key={caseData.Id}>
+                                                        <td>{caseData.Status}</td>
+                                                        <td>{caseData.Subject}</td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </template>
+                                    <template if:false={account.Cases}>
+                                        <p><b>No Cases for this Account</b></p>
+                                    </template>
+                                </lightning-accordion-section>
+                            </lightning-accordion>
+                        </lightning-accordion-section>
+                    </lightning-accordion>
+                </template>
+            </lightning-card>
+        </template>

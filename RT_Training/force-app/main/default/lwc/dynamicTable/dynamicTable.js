@@ -3,104 +3,121 @@ import objectsRelatedToAccount from '@salesforce/apex/DynamicTable.getData'
 
 export default class DynamicTable extends LightningElement {
     objectToDisplay ; 
-    searchedrecords = [] ;
-    search = false ;
+    @api searchterm ;
     //wire
-    @api recordId ;
+    @api record ; // object data
     cloumnData ;
     rowData ;
     sendData ;
     isRecordsPresent = false ;
-    newData ;
     recordsOnPage =[];
     start = 0;
     perpage = 5;
-    currentpage;
+    currentpage; 
     totalpages;
-    disableSearch = false ;
-    handleParent(event){
-        this.objectToDisplay = event.detail ;
-        this.search = false;
-        console.log('objectName----->',this.objectToDisplay);
-    }
-    handleSearch(event){
-        this.searchedrecords = event.detail.value ;
-        this.search = event.detail.checksearch ;
-        console.log('search data' ,JSON.stringify(this.searchedrecords));
-        this.structure() 
-        
-    }
+   // disableSearch = false ;
+    disbaleButtons = false ;
+     filteredData ;
+     obj ;
+     check;
+     check1 ;
+     @api name ;
+     
    
-  
-    @wire (objectsRelatedToAccount, ({accId : '$recordId' , objectName : '$objectToDisplay'}))
+    @wire (objectsRelatedToAccount, ({accId : '$record' , objectName : '$name'} ))
     wireData({data , error}){
-        if(data){
-            
+        if(data){ 
             console.log('data' , data);
-            this.sendData = data[1].objectData ;
-            console.log('senddata' , JSON.stringify(this.sendData));
-            
-            this.cloumnData = data[0].labels.map(col => {
-                return col.Field_Config__r ; 
+            this.obj = Object.assign({} , ...data);
+            this.cloumnData = this.obj.labels.map(a => {
+                return a.Field_Config__r ;
             });
-            console.log('col' , JSON.stringify(this.cloumnData));
-           this.structure() 
-           this.displayContacts()
+            console.log('test col' , JSON.stringify(this.cloumnData));
+            this.rowData = this.obj.objectData.map( value => {
+                let obj ={};
+                obj.Id = value.Id ;
+                obj.record = this.buildRecord(value);
+                return obj ;
+
+            }) ;
+            console.log('enable search bar: ' , this.rowData.length > 5);
+            this.check = this.rowData.length > 5 ;
+           // this.check1 = this.check > 5 ;
+            console.log('check', this.check);            
+            this.dispatchEvent(new CustomEvent("showsearch", { detail : this.check }));
+            this.isRecordsPresent = this.rowData.length > 0 ;
+            console.log('isRecordsPresent' , this.isRecordsPresent);
+            this.filteredData = this.rowData;
+            this.totalpages = Math.ceil(this.filteredData.length/this.perpage);
+            console.log('tottalpages' , this.totalpages);
+            console.log('filteredData ',JSON.stringify(this.filteredData));
+            this.displayContacts();
                    
         }
         else if(error){
             console.log('error' ,error);
         }
     }
-    structure() {
-        if(this.search){
-            this.newData = this.searchedrecords ;
-            console.log('from search' , JSON.stringify(this.newData));
-            
-        } else{
-            this.newData = this.sendData ;
-            console.log('from display default' ,JSON.stringify(this.newData) );
-            
-        }
-        this.rowData = this.newData.map(value => {
-            let obj ={};
-            obj.Id = value.Id ;
-            obj.record = this.buildRecord(value);
-            return obj ;
-        });
-        this.isRecordsPresent = this.rowData.length > 0 ;
-        this.totalpages = Math.ceil(this.rowData.length/this.perpage);
-        console.log('rowData ',JSON.stringify(this.rowData));
-        this.start = 0;
-        this.displayContacts()
-        
-    }
+   
     buildRecord(value){
-        let record = [];
-        this.cloumnData.map(column => {
-            record.push(value[column.Field_Api_Name__c]);
-        });
+        let record = [] ;
+        this.cloumnData.map(column => 
+            record.push(value[column.Field_Api_Name__c])
+        );
         return record;
     }
+  
 
 
-
-
-
-
-
+    // search 
+    @api searched(input){
+        console.log('check', input);
+        this.start = 0;
+        console.log('search trem' , input);
+        if (input) {
+            console.log('inside if');
+            // this.check = this.rowData.map(row => row.record);
+            // console.log('check' , JSON.stringify(this.check));
+            // this.check1 = this.check.filter(every =>   every.toString().toLowerCase().includes(this.searchTerm.toLowerCase()))
+            // console.log('check 1' , JSON.stringify(this.check1));
+            console.log('just for check data' , JSON.stringify(this.filteredData));
+            
+            this.filteredData = this.rowData.filter(row => 
+            row.record.some(value => 
+            value && value.toString().toLowerCase().includes(input.toLowerCase())));
+            if(this.filteredData.length > 5){
+                this.disbaleButtons = true ;
+            }else{
+                this.disbaleButtons = false ;
+            }
+        }
+         else {
+            console.log('search trem' ,input);
+            console.log('insde else');
+            this.filteredData = this.rowData;
+        }
+        console.log('filtered dsta' , JSON.stringify(this.filteredData));
+        this.totalpages = Math.ceil(this.filteredData.length / this.perpage);
+        this.displayContacts();
+        
+    }
+    @api change(){
+        this.start = 0 ;
+    }
+    
     //pagination
     displayContacts(){
+        this.disbaleButtons = false;
         console.log("inside display");
-        console.log("contacts length" +this.rowData);
         console.log('length' , this.rowData.length);
-        
-        if(this.rowData.length > 5){
-            this.disableSearch = true ;
+        if(this.filteredData.length > 5){
+           // this.disableSearch = true ;
+            this.disbaleButtons = true ;
         }
-        console.log('disablesearch' , this.disableSearch);
+        // console.log('disablesearch' , this.disableSearch);
+        this.recordsOnPage = this.filteredData.slice(this.start , this.start+this.perpage)
+        console.log('start ' ,this.start);
         
-        this.recordsOnPage = this.rowData.slice(this.start , this.start+this.perpage)
         console.log("records on page -->",JSON.stringify(this.recordsOnPage));
         this.currentpage = Math.floor(this.start / this.perpage) + 1;
 
@@ -115,9 +132,8 @@ export default class DynamicTable extends LightningElement {
     onPrevious(){
         console.log("inside previous");
         if(this.start-this.perpage >= 0){
-        this.start -= this.perpage;
-        this.displayContacts();
-        
+            this.start -= this.perpage;
+            this.displayContacts();
         }
     }
     get disablePrevious(){
@@ -125,134 +141,5 @@ export default class DynamicTable extends LightningElement {
     }
     get disableNext(){
         return this.currentpage === this.totalpages;
-    }
+    }   
 }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //   @api recordId ;
-    //     columnData ;
-    // @wire (objectsRelatedToAccount , {accId : '$recordId' , objectName : '$value1'})
-    //  wireData({data , error}){
-    //     if(data){
-    //         console.log('data' , data);
-    //         this.columnData = data[0].labels.map(col =>{
-    //              return col.Field_Config__r
-    //         });
-    //         console.log('colData' , JSON.stringify(this.columnData));
-    //         this.recordData = data[1].objectData.map(objectValue =>{
-    //             let obj = {};
-    //             obj.Id = objectValue.Id;
-    //             obj.record = this.buildRecord(objectValue);
-    //             return obj ;
-    //         })
-    //         console.log('record' , JSON.stringify(this.recordData));
-            
-    //     }
-    //     else if(error){
-    //         console.log('error message' , this.error);
-            
-    //     }
-    // }
-    // buildRecord(objectValue){
-    //     let record = [];
-    //     this.columnData.map(col => {
-    //         record.push(objectValue[col.Field_Api_Name__c]);
-    //     });
-    //     return record;
-    // }
-
-
-
-
-
-
-
-
-
-
-//}

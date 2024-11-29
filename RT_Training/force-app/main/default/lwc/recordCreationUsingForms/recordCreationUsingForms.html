@@ -1,0 +1,14 @@
+<template>
+    <div>
+        <c-drop-down-for-forms onoptionselect = {handleOption} ></c-drop-down-for-forms>
+    </div>
+    <div lwc:if={isAccount}>
+        <c-record-creation-using-acc-form ></c-record-creation-using-acc-form>
+    </div>
+    <div lwc:if={isContact}>
+        <c-record-creation-using-con-form></c-record-creation-using-con-form>
+    </div>
+    <div lwc:if={isOpportunity}>
+        <c-record-creation-using-opp-form></c-record-creation-using-opp-form>
+    </div>
+</template>

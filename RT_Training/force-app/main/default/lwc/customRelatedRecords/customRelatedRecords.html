@@ -1,0 +1,11 @@
+<template>
+    <div lwc:if={showSearch}>
+        <c-dynamic-search onsearch = {handleSearchInput} ></c-dynamic-search>
+    </div>
+    <c-dynamic-drop-down disabled={disableDropDown} onoptionselect={handleOption}></c-dynamic-drop-down>
+    <c-dynamic-table record={recordId} name={selectedOption} onshowsearch={handleSearch} ></c-dynamic-table>
+    <div lwc:if={showSpinner}>
+        <lightning-spinner variant="brand" size="medium"></lightning-spinner>
+    </div>
+</template>
+<!-- lwc:if={showSearch} -->

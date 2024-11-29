@@ -1,19 +1,9 @@
 <template>
-    <lightning-card>
-        <template if:true= {disableSearch}>
-            <c-dynamic-search searchdata = {sendData} onsearch = {handleSearch} ></c-dynamic-search>
-
-        </template>
-        <c-dynamic-drop-down onparent = {handleParent}></c-dynamic-drop-down>
-        <!-- <p>{objectToDisplay}</p> -->
-
-    </lightning-card>
-    <lightning-card title={objectToDisplay} >
-    <template if:true = {isRecordsPresent}>
+    <lightning-card >
+        <template if:true = {isRecordsPresent}>
         <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
             <thead>
                 <tr>
-
                     <template for:each= {cloumnData} for:item="col">
                         <th key = {col.Id}> {col.Label}</th>
                     </template>
@@ -30,7 +20,7 @@
             </tbody>
         </table>
         
-        <template if:true= {disableSearch}>
+        <template if:true= {disbaleButtons}>
             <br>
 
             <div style="display: flex; justify-content: space-between; width: 85%;">

@@ -1,13 +1,8 @@
 import { LightningElement , api} from 'lwc';
 
 export default class DynamicDropDown extends LightningElement {
-
- value = ' ';
- @api objectApiName;
-
-    get isDisabled() {
-        return this.objectApiName !== 'Account'; // Disable if not 'Account'
-    }
+    @api disabled = false;
+@api recordId ;
  get options(){
     return [
         {label : 'Contact'  , value : 'Contact'},
@@ -16,17 +11,10 @@ export default class DynamicDropDown extends LightningElement {
     ];
  }
  handleChange(event){
-    this.value = event.detail.value;
-   const sendRes  = new CustomEvent("parent" , { detail : this.value });
-    this.dispatchEvent(sendRes);
+    const value = event.detail.value ;
+    this.dispatchEvent(new CustomEvent("optionselect" , { detail :value }));
+}
+
 }
 
 
-// get disable(){
-//     return this.objectApiName === 'Account' ? true : true 
-    
-// }
-
-
-
-}

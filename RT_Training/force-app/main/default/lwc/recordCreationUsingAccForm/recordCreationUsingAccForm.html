@@ -1,0 +1,64 @@
+<template>
+   
+            <template if:true={showPop}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+           
+            <div class="slds-modal__container">
+             <!-- modal header start -->
+               <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                     <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small"
+                        onclick={handleClose} ></lightning-icon>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Account Records</h2>
+               </header>
+           
+               <!-- modal body start -->
+               <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-input label="Account Name" required onchange={handleInput}></lightning-input>
+                <lightning-input type="tel" label="Phone" max-length="10" min-length="10" onchange={handlePhone}></lightning-input>
+                <lightning-input type="text" label="Account Number" onchange={handleAccountNumber}></lightning-input>
+                <lightning-combobox name="status" label="Industry" placeholder="choose industry" onchange={handleIndustry} options={options}></lightning-combobox>
+                <lightning-input type="number" label="Annual revenue" formatter="currency" onchange={handleRevenue}></lightning-input>
+               </div>
+     
+               <!-- modal footer start-->
+               <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={handleCancel}>Cancel</button> &nbsp;&nbsp; &nbsp;&nbsp; 
+                <lightning-button label="Save"   onclick={handleCreate} variant="brand"  disabled={disableSave} ></lightning-button>
+                <!-- <button class="slds-button slds-button_brand"   onclick={handleCreate} type="submit">Save</button> -->
+               </footer>
+            
+            </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+        <!-- </template> -->
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- <form>
+        <lightning-input label="Account Name" required onchange={handleInput}></lightning-input>
+        <lightning-input type="tel" label="Phone"  onchange={handlePhone}></lightning-input>
+        <lightning-input type="text" label="Account Number" onchange={handleAccountNumber}></lightning-input>
+        <lightning-combobox name="status" label="Industry" placeholder="choose industry" onchange={handleIndustry} options={options}></lightning-combobox>
+        <lightning-input type="number" label="Annual revenue" formatter="currency" onchange={handleRevenue}></lightning-input>
+        <br>
+        <button class="slds-button slds-button_brand"  onclick={handleCreate}>Save</button>
+    </form>
+        <button class="slds-button slds-button_neutral" type=" button" onclick={handleCancel}>Cancel</button> &nbsp;&nbsp; &nbsp;&nbsp; -->
+        <!-- <template if:true={showPop}> -->

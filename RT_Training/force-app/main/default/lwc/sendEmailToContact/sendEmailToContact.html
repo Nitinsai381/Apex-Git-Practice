@@ -1,0 +1,83 @@
+<template>
+  <lightning-card title="Send Email" icon-name="custom:custom11">
+    <div class="borders">
+      <div class="button-align">
+        <button class="slds-button slds-button_brand right-side" disabled={isDisableTemplate} onclick={handleTemplate}>Select Template</button>
+      </div>
+      <div class="grid">
+        <lightning-input 
+          type="text"
+          placeholder="Enter email..."  
+          label="To"  
+          value={matchedEmail}  
+          required 
+          disabled={isDisableToEmail}>
+        </lightning-input> 
+        <div class="border-round">
+        <lightning-input 
+          type="search" 
+          onkeypress={handleEnter} 
+          placeholder="Type text for search" 
+       
+          label="Search Contact" 
+          onchange={handleContactName}  
+          oncommit={handleCancelForSearch}>
+        </lightning-input>
+      </div>
+      </div>
+      <div class="line-break"></div>
+      <lightning-input type="text" placeholder="enter subject..." label="subject" value={selectedSubject}></lightning-input>
+
+      <div class="line-break"></div>
+      <lightning-input-rich-text label="Email Body" label-visible value={selectedBody}></lightning-input-rich-text>
+
+      <div class="line-break"></div>
+      <div class="button-align">
+        <button class="slds-button slds-button_brand right-side" disabled={isDisableSendButton} onclick={sendEmail}> send email</button>
+      </div>
+    </div>
+
+    <!-- Model Popup -->
+    <div lwc:if={isShowPop}>
+      <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_small">
+        <div class="slds-modal__container">
+          <div class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+              <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" onclick={handleClose}></lightning-icon>
+              <span class="slds-assistive-text">Close</span>
+            </button>
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">Email Template</h1>
+          </div>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning-combobox name="select Folder" label="Folder" value={defaultTemplate} options={options} placeholder="select template" onchange={handleSelectTemplate}></lightning-combobox>
+            <div lwc:if={tableValue}>
+              <div class="line-break"></div>
+              <h2><b>Select Email Template</b></h2>
+              <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+                <thead>
+                  <th>Template Name</th>
+                  <th>Subject</th>
+                  <th>Body</th>
+                </thead>
+                <tbody>
+                  <template for:each={tableValue} for:item="object">
+                    <tr key={object.Id} onclick={handleRowClick} data-id={object.Id} class="slds-table">
+                      <td>{object.Name}</td>
+                      <td>{object.Subject}</td>
+                      <td>{object.Body}</td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={handleCancelButton}>Cancel</button>
+            <button class="slds-button slds-button_brand" onclick={handleSaveEmailData}>Save</button>
+          </div>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
+  </lightning-card>
+</template>
