@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title = "Display searched contacts">
+        
+            <template if:true= {contactdisplay} >
+               <!-- <ol>
+                <template for:each= {contactdisplay} for:item="con">
+                <li key = {con.Id}> {con}</li>
+                </template>
+               </ol> -->
+               <table class="slds-table slds-table_bordered slds-table_striped">
+                <thead>
+                    <th> Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                </thead>
+                <tbody>
+                    <template for:each= {contactdisplay} for:item="con">
+                    <tr key = {con.Id}>
+                        <td>{con.Name}</td>
+                        <td>{con.Email}</td>
+                        <td>{con.Department}</td>
+                    
+                </tr>
+                </template>
+                </tbody>
+               </table>
+            </template>
+     
+    </lightning-card>
+</template>

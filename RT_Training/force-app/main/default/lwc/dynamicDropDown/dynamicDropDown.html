@@ -1,0 +1,17 @@
+<template>
+    <lightning-card>
+        <lightning-layout>
+           
+            <lightning-layout-item  size="4" >
+
+                <lightning-combobox
+                        name="object"
+                        value={value}
+                        placeholder="Select object"
+                        options={options}
+                        onchange={handleChange} 
+                        disabled={disabled}></lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

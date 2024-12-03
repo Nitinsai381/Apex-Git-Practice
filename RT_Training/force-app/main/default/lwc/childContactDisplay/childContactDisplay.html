@@ -1,0 +1,46 @@
+<template>
+    <lightning-card title="Contact Details">
+        <template if:true= {contactinfo}>
+            <table class="slds-table slds-table_bordered slds-table_striped">
+                <thead>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                    <th>Birthdate</th>
+                </thead>
+                <tbody>
+                    
+                            <td> {contactinfo.Name}</td>
+                            <td>{contactinfo.Department}</td>
+                            <td>{contactinfo.Email}</td>
+                            <td>{contactinfo.Birthdate}</td>
+                            <td></td>
+                        </tr>
+                  
+                </tbody>
+            </table>
+        </template>
+    </lightning-card>
+</template>
+
+<!-- <template>
+    <lightning-card title = " contact information">
+        <template if:true= {contactinfo}>
+            <form >
+                <label>  Name &ensp; : &emsp; </label>
+                <label> {contactinfo.Name}</label>
+                <br>
+                <label > Email &ensp; : &emsp;</label>
+                <label> {contactinfo.Email}</label>
+                <br>
+                <label > Department &ensp;: &emsp;</label>
+                <label> {contactinfo.Department}</label>
+                <br>
+                <label > Birthdate &ensp; : &emsp;</label>
+                <label> {contactinfo.Birthdate}</label>
+                <br>
+
+            </form>
+        </template>
+    </lightning-card>
+</template> -->

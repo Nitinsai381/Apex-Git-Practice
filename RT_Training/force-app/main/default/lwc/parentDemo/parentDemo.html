@@ -1,0 +1,7 @@
+<template>
+    <lightning-card title = "Parent Component">
+        <lightning-input  label=" Message" type="text" placeholder="type here" onchange={handleChange} >
+        </lightning-input>
+        <c-child-demo message = {value}></c-child-demo>
+    </lightning-card>
+</template>
